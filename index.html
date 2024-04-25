@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bad Pixel test</title>
+</head>
+<body>
+   <div class="view"></div> 
+    <button class="start">Start</button>
+</body>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        position: relative;
+        min-height: 100vh;
+    }
+    .view {
+        display: flex;
+        width: 100%;
+    }
+    .start {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<script>
+    const colors = ['red', 'green', 'blue', 'gray'];
+    const start = document.querySelector('.start');
+    const view = document.querySelector('.view');
+
+    let currentIndexColor = 0;
+    const maxIndexColors = colors.length - 1;
+    const TIME_INTERVAL = 2000;
+
+    const changeColors = () => {
+        view.setAttribute('style', `background: ${colors[currentIndexColor]}`);
+        if (currentIndexColor + 1 > maxIndexColors) {
+            currentIndexColor = 0;
+        } else {
+            currentIndexColor += 1;
+        }
+    };
+
+    if (start) {
+        start.addEventListener('click', () => {
+            let interval;
+            if (view.classList.contains('started')) {
+                window.clearInterval(interval)
+                start.textContent = 'start';
+                view.classList.remove('started')
+            } else {
+                interval = setInterval(() => changeColors(), TIME_INTERVAL)
+                changeColors();
+                start.textContent = 'stop';
+                view.classList.add('started')
+            }
+        })
+    }
+</script>
+</html>
